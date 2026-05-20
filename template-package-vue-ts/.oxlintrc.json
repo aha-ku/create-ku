@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "vue"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "vue/require-default-export": "error",
+    "vue/no-deprecated-model-definition": "error",
+    "no-var": "error",
+    "no-unused-vars": "error",
+    "no-console": "warn",
+    "import/no-cycle": ["error", { "maxDepth": 3 }]
+  },
+  "ignorePatterns": ["dist/**", "node_modules/**", ".lefthook/**"],
+  "env": {
+    "builtin": true
+  }
+}

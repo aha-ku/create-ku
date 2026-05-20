@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "target": "esnext",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noUnusedLocals": true
+  },
+  "include": ["src/**/*.ts", "tsup.config.ts", "tsdown.config.ts", "rolldown.config.ts"]
+}

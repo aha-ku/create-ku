@@ -1,0 +1,9 @@
+{
+  "name": "monorepo-vanilla",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {},
+  "packageManager": "pnpm@10.33.2"
+}

@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: oxfmt
+      run: "npm run lint:fmt {staged_files}"
+      glob: "src/*.{ts}"
+    - name: oxlint
+      run: "npm run lint {staged_files}"
+      glob: "src/*.{ts}"
+    - name: cspell
+      run: "npm run lint:cspell {staged_files}"
+      glob: "src/*.{ts}"

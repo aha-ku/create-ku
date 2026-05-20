@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "target": "esnext",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "jsx": "preserve"
+  },
+  "include": ["src", "tsdown.config.ts"]
+}

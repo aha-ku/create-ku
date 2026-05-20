@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "react"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "react/hook-use-state": "error",
+    "react/no-did-mount-set-state": "warn",
+    "react/jsx-max-depth": ["error", { "max": 3 }],
+    "no-var": "error",
+    "no-unused-vars": "error",
+    "no-console": "warn",
+    "import/no-cycle": ["error", { "maxDepth": 3 }]
+  },
+  "ignorePatterns": ["dist/**", "node_modules/**", ".lefthook/**"],
+  "env": {
+    "builtin": true
+  }
+}
