@@ -15,7 +15,7 @@
   },
   "files": [
     "dist",
-    "template-*",
+    "template-*/**",
     "index.js"
   ],
   "type": "module",
