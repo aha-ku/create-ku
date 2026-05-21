@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("Hello, Normal Express Typescript!");
+  res.send("Hello, Normal Express!");
 });
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
