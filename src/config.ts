@@ -96,7 +96,7 @@ const ARCHITECTURES: Architecture[] = [
     display: "Package",
     color: green,
     confirm: {
-      message: "In Monorepo Package?",
+      message: "In Monorepo ?",
     },
     templates: [
       {
@@ -157,7 +157,7 @@ const ARCHITECTURES: Architecture[] = [
     display: "Normal",
     color: green,
     confirm: {
-      message: "In Monorepo Package?",
+      message: "In Monorepo ?",
     },
     templates: [
       {
@@ -206,6 +206,23 @@ const ARCHITECTURES: Architecture[] = [
           },
           {
             name: "react",
+            display: "JavaScript",
+            color: green,
+          },
+        ],
+      },
+      {
+        name: "express",
+        display: "Express",
+        color: green,
+        variants: [
+          {
+            name: "express-ts",
+            display: "Typescript",
+            color: green,
+          },
+          {
+            name: "express",
             display: "JavaScript",
             color: green,
           },
@@ -1103,6 +1120,212 @@ const config: Config = {
         build: "tsdown",
         dev: "tsdown --watch",
         prepublishOnly: "",
+      },
+      bumpp: {
+        release: "bumpp",
+      },
+    },
+    configs: {
+      lefthook: {
+        "pre-commit": {
+          parallel: true,
+          jobs: [
+            {
+              name: "oxfmt",
+              run: `${PKG_MANAGER_STRING} lint:fmt {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+            {
+              name: "oxlint",
+              run: `${PKG_MANAGER_STRING} lint {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+            {
+              name: "cspell",
+              run: `${PKG_MANAGER_STRING} lint:cspell {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+          ],
+        },
+      },
+    },
+    buildTools: [
+      {
+        name: "tsdown",
+        display: "Tsdown",
+        color: green,
+      },
+    ],
+    tools: {
+      "All Tools": [
+        {
+          name: "bumpp",
+          display: "Bumpp",
+          color: green,
+        },
+        {
+          name: "oxfmt",
+          display: "Oxfmt",
+          color: green,
+        },
+        {
+          name: "oxlint",
+          display: "Oxlint",
+          color: green,
+        },
+        {
+          name: "lefthook",
+          display: "Lefthook",
+          color: green,
+        },
+        {
+          name: "cspell",
+          display: "Cspell",
+          color: green,
+        },
+      ],
+    },
+  },
+  "template-normal-express": {
+    devDeps: {
+      cspell: {
+        cspell: "^9.8.0",
+        "@cspell/dict-lorem-ipsum": "^4.0.5",
+      },
+      oxfmt: {
+        oxfmt: "^0.46.0",
+      },
+      oxlint: {
+        oxlint: "^1.61.0",
+      },
+      lefthook: {
+        lefthook: "^2.1.6",
+      },
+      tsdown: {
+        tsdown: "^0.22.0",
+      },
+      bumpp: {
+        bumpp: "^11.1.0",
+      },
+    },
+    scripts: {
+      cspell: {
+        "lint:cspell": "cspell .",
+      },
+      oxfmt: {
+        "lint:fmt": "oxfmt",
+      },
+      oxlint: {
+        lint: "oxlint",
+      },
+      lefthook: {
+        prepare: "lefthook install",
+      },
+      tsdown: {
+        build: "tsdown",
+      },
+      bumpp: {
+        release: "bumpp",
+      },
+    },
+    configs: {
+      lefthook: {
+        "pre-commit": {
+          parallel: true,
+          jobs: [
+            {
+              name: "oxfmt",
+              run: `${PKG_MANAGER_STRING} lint:fmt {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+            {
+              name: "oxlint",
+              run: `${PKG_MANAGER_STRING} lint {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+            {
+              name: "cspell",
+              run: `${PKG_MANAGER_STRING} lint:cspell {staged_files}`,
+              glob: "*.{ts,tsx,json}",
+            },
+          ],
+        },
+      },
+    },
+    buildTools: [
+      {
+        name: "tsdown",
+        display: "Tsdown",
+        color: green,
+      },
+    ],
+    tools: {
+      "All Tools": [
+        {
+          name: "bumpp",
+          display: "Bumpp",
+          color: green,
+        },
+        {
+          name: "oxfmt",
+          display: "Oxfmt",
+          color: green,
+        },
+        {
+          name: "oxlint",
+          display: "Oxlint",
+          color: green,
+        },
+        {
+          name: "lefthook",
+          display: "Lefthook",
+          color: green,
+        },
+        {
+          name: "cspell",
+          display: "Cspell",
+          color: green,
+        },
+      ],
+    },
+  },
+  "template-normal-express-ts": {
+    devDeps: {
+      cspell: {
+        cspell: "^9.8.0",
+        "@cspell/dict-lorem-ipsum": "^4.0.5",
+      },
+      oxfmt: {
+        oxfmt: "^0.46.0",
+      },
+      oxlint: {
+        oxlint: "^1.61.0",
+      },
+      lefthook: {
+        lefthook: "^2.1.6",
+      },
+      tsdown: {
+        tsdown: "^0.22.0",
+      },
+      bumpp: {
+        bumpp: "^11.1.0",
+      },
+    },
+    scripts: {
+      cspell: {
+        "lint:cspell": "cspell .",
+      },
+      oxfmt: {
+        "lint:fmt": "oxfmt",
+      },
+      oxlint: {
+        lint: "oxlint",
+      },
+      lefthook: {
+        prepare: "lefthook install",
+      },
+      tsdown: {
+        build: "tsdown",
       },
       bumpp: {
         release: "bumpp",

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noUnusedLocals": true
+  },
+  "include": ["src", "tsdown.config.ts"]
+}
