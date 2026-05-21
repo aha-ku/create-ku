@@ -54,3 +54,5 @@ Currently supported template presets include:
   - vue
   - react-ts
   - react
+  - express-ts
+  - express
