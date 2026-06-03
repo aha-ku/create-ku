@@ -354,8 +354,8 @@ async function mainAction(target: string | undefined, options: any) {
   let files = fs.readdirSync(templateDir);
   function filterFiles(toolNames: ToolName[]) {
     const commonFiles = files.filter((file) => {
-      // in monorepo, we don't need to generate .gitignore
-      if (yesInMonorepo && file.includes("gitignore")) return false;
+      // in monorepo, we don't need to generate .gitignore or .vscode
+      if (yesInMonorepo && (file.includes("gitignore") || file.includes("vscode"))) return false;
       return !toolNames?.some((name) => file.includes(name));
     });
     const toolFiles = files.filter((file) => {
