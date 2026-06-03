@@ -232,8 +232,8 @@ function end(cwd: string, root: string, agent: string) {
   console.log(greenBright(message));
 }
 
-function generateLefthookConfig(obj) {
-  function serialize(value, indentLevel = 0, isArrayItem = false) {
+function generateLefthookConfig(obj: any): string {
+  function serialize(value: any, indentLevel = 0, isArrayItem = false): string {
     const indent = "  ".repeat(indentLevel);
     if (value === null || value === undefined) return "";
     if (typeof value === "string") {

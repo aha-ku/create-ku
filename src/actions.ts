@@ -48,7 +48,7 @@ import {
 } from "./config";
 import { fileURLToPath } from "node:url";
 import { determineAgent } from "@vercel/detect-agent";
-async function mainAction(target, options) {
+async function mainAction(target: string | undefined, options: any) {
   // command options
   const argTargetDir = target ? formatTargetDir(target) : undefined;
   const argTemplate = options.template;
@@ -94,7 +94,7 @@ async function mainAction(target, options) {
     }
   }
   // 2. targetDir exists?
-  if (fs.existsSync(targetDir) && !isEmpty(targetDir)) {
+  if (fs.existsSync(targetDir as string) && !isEmpty(targetDir as string)) {
     let overwrite: "yes" | "ignore" | "no" | undefined = argOverwrite ? "yes" : undefined;
     if (!overwrite) {
       if (interactive) {
@@ -123,14 +123,14 @@ async function mainAction(target, options) {
     }
     switch (overwrite) {
       case "yes":
-        emptyDir(targetDir);
+        emptyDir(targetDir as string);
         break;
       case "no":
         return cancel();
     }
   }
   // 3. get package name
-  let packageName = path.basename(path.resolve(targetDir));
+  let packageName = path.basename(path.resolve(targetDir as string));
   if (!isValidPackageName(packageName)) {
     if (interactive) {
       const rePackageName = await text({
@@ -173,7 +173,7 @@ async function mainAction(target, options) {
   if (hasInMonorepoConfirm && isInMonorepoProject === undefined) {
     if (interactive) {
       const isInMono = await confirm({
-        message: archMap.confirm.message,
+        message: archMap.confirm?.message || "Is in a monorepo project?",
       });
       if (isCancel(isInMono)) return cancel();
       isInMonorepoProject = isInMono;
@@ -207,17 +207,20 @@ async function mainAction(target, options) {
         }),
       });
       if (isCancel(framework)) return cancel();
-      const variants = currentTemplates.find((t) => t.name === framework).variants;
+      const variants = currentTemplates.find((t) => t.name === framework)?.variants;
       const variant = await select({
         message: "Select a variant:",
-        options: variants.map(({ name, display, color, customCommand }) => {
-          const command = customCommand ? getFullCustomCommand(customCommand, pkgInfo) : undefined;
-          return {
-            label: color(display),
-            value: name,
-            hint: command,
-          };
-        }),
+        options:
+          variants?.map(({ name, display, color, customCommand }) => {
+            const command = customCommand
+              ? getFullCustomCommand(customCommand, pkgInfo)
+              : undefined;
+            return {
+              label: color(display),
+              value: name,
+              hint: command,
+            };
+          }) || [],
       });
       if (isCancel(variant)) return cancel();
       template = variant;
@@ -232,9 +235,12 @@ async function mainAction(target, options) {
   const preTools = typeof argTools === "string" ? [argTools] : argTools;
 
   // 6.Choose a build tool
-  let buildTool: AllBuildToolName = argBuildTool;
+  let buildTool: AllBuildToolName | undefined = argBuildTool;
   if (buildToolOptions) {
-    let hasInvalidBuildTool = hasInvalidBuildToolName(templateDirBaseName, buildTool);
+    let hasInvalidBuildTool = hasInvalidBuildToolName(
+      templateDirBaseName,
+      buildTool as AllBuildToolName,
+    );
     if (hasInvalidBuildTool) {
       buildTool = undefined;
     }
@@ -253,9 +259,9 @@ async function mainAction(target, options) {
   }
 
   // 6.1 Choose tools
-  let tools: OtherToolName[] = preTools;
+  let tools: OtherToolName[] | undefined = preTools;
   if (toolOptions && !yesInMonorepo) {
-    const hasInvalidTools = hasInvalidToolNames(templateDirBaseName, tools);
+    const hasInvalidTools = hasInvalidToolNames(templateDirBaseName, tools as OtherToolName[]);
     if (hasInvalidTools) {
       tools = undefined;
     }
@@ -291,17 +297,17 @@ async function mainAction(target, options) {
     ? "pnpm"
     : (getTemplatePkgManager(templateDirBaseName) ?? ownPkgManager);
 
-  const rootDir = path.join(cwd, targetDir);
+  const rootDir = path.join(cwd, targetDir ?? "");
 
   const { customCommand } = getTemplateVariant(arch, template) ?? {};
   if (customCommand) {
-    pkgInfo.name = pkgManager;
+    (pkgInfo as any).name = pkgManager;
     const fullCustomCommand = getFullCustomCommand(customCommand, pkgInfo);
 
     const [command, ...args] = fullCustomCommand.split(" ");
     const replaceArgs = args.map((arg) => {
       if (arg.includes(TARGET_BASENAME_STRING)) {
-        return arg.replace(TARGET_BASENAME_STRING, () => path.basename(targetDir));
+        return arg.replace(TARGET_BASENAME_STRING, () => path.basename(targetDir as string));
       }
       return arg;
     });
@@ -368,12 +374,14 @@ async function mainAction(target, options) {
     configKeys.forEach((key) => {
       const hasKey = tools?.includes(key as OtherToolName);
       if (hasKey && key === "lefthook") {
-        const otherTools = tools.filter((t) => t !== "lefthook");
+        const otherTools = tools?.filter((t) => t !== "lefthook");
         const index = files.findIndex((file) => file.includes("lefthook"));
         const lefthookFile = files.splice(index, 1)[0];
-        configs.lefthook["pre-commit"].jobs = configs.lefthook["pre-commit"].jobs.filter((j) => {
-          return otherTools.includes(j.name);
-        });
+        configs.lefthook["pre-commit"].jobs = configs.lefthook["pre-commit"].jobs.filter(
+          (j: any) => {
+            return otherTools?.includes(j.name);
+          },
+        );
         const content = generateLefthookConfig(configs.lefthook).replace(
           new RegExp(PKG_MANAGER_STRING, "g"),
           getRunCommand(pkgManager, "").join(" ").trim(),

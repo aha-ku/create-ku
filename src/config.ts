@@ -232,7 +232,7 @@ const ARCHITECTURES: Architecture[] = [
   },
 ];
 export const getArchitecture = (arch: ArchitectureName): Architecture => {
-  return ARCHITECTURES.find(({ name }) => name === arch);
+  return ARCHITECTURES.find(({ name }) => name === arch) as Architecture;
 };
 export const getTemplatesByArch = (arch: ArchitectureName): Template[] => {
   return getArchitecture(arch).templates;
@@ -245,11 +245,11 @@ export const getArchTemplateNames = (arch: ArchitectureName): string[] => {
 export const getTemplateVariant = (arch: ArchitectureName, template: string): TemplateVariant => {
   return getTemplatesByArch(arch)
     .flatMap((t) => t.variants)
-    .find((t) => t.name === template);
+    .find((t) => t.name === template) as TemplateVariant;
 };
 export const VERSION = getVersion();
 export const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
-export const ownPkgManager = pkgInfo ? pkgInfo.name : "npm";
+export const ownPkgManager = (pkgInfo ? pkgInfo.name : "npm") as string;
 export const PKG_MANAGER_STRING = "PKG_MANAGER";
 export const DEFAULT_TARGET_DIR = "ku-project";
 export const cwd = process.cwd();
@@ -1430,7 +1430,7 @@ export const getTemplateTools: (
 };
 export const getTemplateToolNames = (templateName: TemplateDirBaseName) => {
   let tools = getTemplateTools(templateName);
-  let toolNames: ToolName[];
+  let toolNames: ToolName[] = [];
   if (tools) {
     if (Array.isArray(tools)) toolNames = tools.map((tool) => tool.name);
     else
@@ -1438,7 +1438,7 @@ export const getTemplateToolNames = (templateName: TemplateDirBaseName) => {
         .flat()
         .map((tool) => tool.name);
   }
-  return toolNames || [];
+  return toolNames;
 };
 export const getTemplateAllToolNames = (templateName: TemplateDirBaseName) => {
   return getTemplateToolNames(templateName).concat(getTemplateBuildToolNames(templateName));
